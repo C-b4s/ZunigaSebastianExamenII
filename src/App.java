@@ -1,5 +1,11 @@
+import ZSAppComponent.ZSConsoleApp.ZSAppExoTropper;
+import ZSBusinessLogicComponent.ZSEntities.ZSSoldado;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        ZSAppExoTropper zsAppExoTropper = new ZSAppExoTropper();
+        ZSSoldado zsSoldado = new ZSSoldado("patmic","123");
+
+        zsAppExoTropper.zsStart(zsSoldado);
     }
 }

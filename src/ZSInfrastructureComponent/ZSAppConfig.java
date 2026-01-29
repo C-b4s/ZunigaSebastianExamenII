@@ -15,8 +15,7 @@ public abstract class ZSAppConfig {
     private static final String ZSKEY_DB_NAME         = "db.File";
     private static final String ZSKEY_FILE_LOG        = "df.logFile";
     private static final String ZSKEY_FILE_DATA       = "df.AntCoor";
-    private static final String ZSKEY_FILE_ANTNEST    = "df.AntNest";
-    private static final String ZSKEY_FILE_ANTFOOD    = "df.AntFood";
+    private static final String ZSKEY_FILE_EXOTRACER  = "df.ExoTracer";
     private static final String ZSKEY_RES_IMG_MAIN    = "res.img.Main";
     private static final String ZSKEY_RES_IMG_LOGO    = "res.img.Logo";
     private static final String ZSKEY_RES_IMG_SPLASH  = "res.img.Splash";
@@ -25,8 +24,7 @@ public abstract class ZSAppConfig {
     public static final String zsGETDATABASE  (){ return zsGetProperty( ZSKEY_DB_NAME      ); }
     public static final String zsGETLOGFILE   (){ return zsGetProperty( ZSKEY_FILE_LOG     ); }
     public static final String zsGETDATAFILE  (){ return zsGetProperty( ZSKEY_FILE_DATA    ); }
-    public static final String zsGETANTFOOD   (){ return zsGetProperty( ZSKEY_FILE_ANTFOOD ); }
-    public static final String zsGETANTNEST   (){ return zsGetProperty( ZSKEY_FILE_ANTNEST ); }
+    public static final String zsGETEXOTRACER (){ return zsGetProperty( ZSKEY_FILE_EXOTRACER ); }
     // Resources . Recurso estático empaquetado
     public static final URL zsGetImgMain      (){ return zsGetAppResource(ZSKEY_RES_IMG_MAIN  ); }
     public static final URL zsGetImgLogo      (){ return zsGetAppResource(ZSKEY_RES_IMG_LOGO  ); }

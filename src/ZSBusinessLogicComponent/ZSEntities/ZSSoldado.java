@@ -1,30 +1,77 @@
 package ZSBusinessLogicComponent.ZSEntities;
 
-import ZSBusinessLogicComponent.ZSFactoryBL;
-import ZSDataAccessComponent.ZSDAOs.ZSSoldadoDAO;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import ZSDataAccessComponent.ZSDTOs.ZSSoldadoDTO;
+import ZSInfrastructureComponent.ZSAppConfig;
+import ZSInfrastructureComponent.ZSAppException;
 import ZSInfrastructureComponent.ZSTools.ZSCMDColor;
 
 public class ZSSoldado {
-    // Refactorización: Se eliminaron los atributos de la clase ZSSoldado, pues la clase ZSSoldadoDTO ya los contenía
+
     ZSSoldadoDTO zsSoldadoDTO = new ZSSoldadoDTO();
+    ZSSoldadoBL zsSoldadoBl;
+    String zsUsuario;
+    String zsContrasena;
 
-    ZSFactoryBL<ZSSoldadoDTO> zsFactory = new ZSFactoryBL<>(ZSSoldadoDAO.class);
 
-    //Refactorización: Se agregó el método checkLogin a ZSSoldado
-    public Boolean zsCheckLogin(String zsUsuario, String zsContrasena){
-        boolean auth1 = zsUsuario.equals("patmic") 
-                         && zsContrasena.equals("123");
+    private static final DateTimeFormatter ZS_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        boolean auth2 = zsUsuario.equals("ZunigaSebastian") 
-                     && zsContrasena.equals("1706");
-        if (auth1 || auth2) {
-            System.out.println(ZSCMDColor.GREEN +"Acceso concedido.\n" + ZSCMDColor.RESET);
+    public ZSSoldado(String zsUsuario, String zsContrasena) throws ZSAppException {
+        zsSoldadoBl = new ZSSoldadoBL();
+        this.zsUsuario = zsUsuario;
+        this.zsContrasena = zsContrasena;
+    }
+
+    // Refactorización: Se agregó el método checkLogin a ZSSoldado
+    public Boolean zsCheckLogin(String zsUsuario, String zsContrasena) throws ZSAppException {
+
+        ZSSoldadoDTO zsLoginAttempt =
+                zsSoldadoBl.zsSoldadoDAO.zsCheck(zsUsuario, zsContrasena);
+
+        boolean auth = (zsLoginAttempt != null);
+
+        if (auth) {
+            System.out.println(ZSCMDColor.GREEN +
+                    "GOOD. Acceso concedido.\n" + ZSCMDColor.RESET);
+
+            zsWriteExoTracer("GOOD", "Acceso concedido");
             return true;
         }
-        System.out.println(ZSCMDColor.RED + "ERROR DE AUTENTICACIÓN");
-        System.out.println("Usuario o contraseña incorrectos.");
-        System.out.println("Por favor, intente nuevamente.\n" + ZSCMDColor.RESET);
+
+        System.out.println(ZSCMDColor.RED +
+                "ERROR. Acceso denegado.\n" + ZSCMDColor.RESET);
+
+        zsWriteExoTracer("ERROR", "Acceso denegado");
         return false;
     }
+
+    private void zsWriteExoTracer(String level, String message) {
+    String time = LocalDateTime.now().format(ZS_FORMAT);
+
+    try {
+        Path path = Paths.get(ZSAppConfig.zsGETEXOTRACER()).toAbsolutePath();
+
+        String line = time + " | " + level + " : " + message + System.lineSeparator();
+
+        Files.write(
+                path,
+                line.getBytes(),
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND
+        );
+
+    } catch (IOException e) {
+        System.err.println("ERROR ExoTracer ❱❱ " + e.getMessage());
+    }
+}
+
+
 }

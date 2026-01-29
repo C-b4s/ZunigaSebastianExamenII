@@ -1,6 +1,10 @@
 package ZSAppComponent.ZSConsoleApp;
 
+import ZSAppComponent.ZSDesktopApp.ZSForms.ZSAppSplashScreen;
+import ZSAppComponent.ZSDesktopApp.ZSForms.ZSAppStart;
 import ZSBusinessLogicComponent.ZSEntities.ZSSoldado;
+import ZSInfrastructureComponent.ZSAppException;
+import ZSInfrastructureComponent.ZSTools.ZSCMD;
 import ZSInfrastructureComponent.ZSTools.ZSCMDColor;
 import ZSInfrastructureComponent.ZSTools.ZSCMDProgress;
 
@@ -8,23 +12,24 @@ import ZSInfrastructureComponent.ZSTools.ZSCMDProgress;
 public class ZSAppExoTropper {
 
     public void zsStart(ZSSoldado zsSoldado) throws InterruptedException{
-        System.out.println(ZSCMDColor.BLUE + "Sistema Ruso iniciado...");
+        ZSCMD.println("AppExoTropper iniciada...");
         ZSCMDProgress.showSpinner();
         System.out.println(ZSCMDColor.RESET);
         try{
             if(zsAutenticar(zsSoldado)){
-                
+                new ZSAppSplashScreen();
+                ZSAppStart zsAppStart = new ZSAppStart("AppExoTropper");
             }else{
-                System.out.println(ZSCMDColor.RED + "Acceso denegado. Saliendo del sistema..." + ZSCMDColor.RESET);
+                ZSCMD.printlnError("Acceso denegado. Saliendo del sistema...");
                 System.exit(0);
             }
         }catch(Exception e){
-            System.out.println(ZSCMDColor.RED + "Error durante la autenticación: " + e.getMessage() + ZSCMDColor.RESET);
+            ZSCMD.printlnError("Error durante la autenticación: ");;
         }
         
     }
 
-    public Boolean zsAutenticar(ZSSoldado zsSoldado){
+    public Boolean zsAutenticar(ZSSoldado zsSoldado) throws ZSAppException{
         int zsCountTry = 0;
         while (zsCountTry++ < 3){
             System.out.println("=================== LOGIN ===================");

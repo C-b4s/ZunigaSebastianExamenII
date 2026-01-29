@@ -1,0 +1,5 @@
+2026-01-28 23:24:12 | GOOD : Acceso concedido
+2026-01-28 23:37:54 | ERROR : Acceso denegado
+2026-01-28 23:38:00 | GOOD : Acceso concedido
+2026-01-28 23:43:10 | GOOD : Acceso concedido
+2026-01-28 23:44:56 | GOOD : Acceso concedido
