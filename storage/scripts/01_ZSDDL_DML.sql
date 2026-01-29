@@ -1,189 +1,87 @@
--- database: ..\Databases\ZSAnt.sqlite
+-- database: ..\Databases\ZSEXOBOT.sqlite
 -- © 2K26 ❱──👾──❰ c_bit
 
-DROP TABLE IF EXISTS ZSAntCiberDron;
-DROP TABLE IF EXISTS ZSHormiga;
-DROP TABLE IF EXISTS ZSAlimento;
 DROP TABLE IF EXISTS ZSSexo;
-DROP TABLE IF EXISTS ZSEstado;
-DROP TABLE IF EXISTS ZSHormigaTipo;
-DROP TABLE IF EXISTS ZSAlimentoTipo;
+DROP TABLE IF EXISTS ZSSoldado;
+DROP TABLE IF EXISTS ZSExobotTipo;
+DROP TABLE IF EXISTS ZSExobot;
+DROP TABLE IF EXISTS ZSArmaTipo;
 
-CREATE TABLE ZSAlimentoTipo (
-     IdZSAlimentoTipo INTEGER PRIMARY KEY AUTOINCREMENT     
-    ,zsNombre         VARCHAR(15) NOT NULL UNIQUE
-    ,zsDescripcion    VARCHAR(100) NULL
-    ,zsEstado         VARCHAR(1)  NOT NULL DEFAULT ('A')
-    ,zsFechaCreacion  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-    ,zsFechaModifica  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
+CREATE TABLE ZSSexo(
+     IdZSSexo             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+    ,ZSNombre             VARCHAR(10) NOT NULL UNIQUE
+    ,ZSDescripcion        VARHCAR (30) NOT NULL
+    ,ZSEstado             VARCHAR(1) NOT NULL DEFAULT ('A')
+    ,ZSFechaCreacion      DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    ,ZSFechaModificacion  DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
-CREATE TABLE ZSHormigaTipo (
-     IdZSHormigaTipo  INTEGER PRIMARY KEY AUTOINCREMENT     
-    ,zsNombre         VARCHAR(15) NOT NULL UNIQUE
-    ,zsDescripcion    VARCHAR(100) NULL
-    ,zsEstado         VARCHAR(1)  NOT NULL DEFAULT ('A')
-    ,zsFechaCreacion  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-    ,zsFechaModifica  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
+-- Refactorización: Se eliminaron los campos ZSNombre y ZSApellido. Además, se cambió ZSCedula por ZSUsuario
+CREATE TABLE ZSSoldado(
+     IdZSSoldado            INTEGER NOT NULL PRIMARY  KEY AUTOINCREMENT
+    ,IdZSSexo               INTEGER NOT NULL REFERENCES ZSSexo (IdZSSexo)
+    ,ZSUsuario              VARCHAR(10) NOT NULL UNIQUE 
+    ,ZSContrasena           VARCHAR(10) NOT NULL UNIQUE 
+    ,ZSEstado               VARCHAR(1) NOT NULL DEFAULT ('A')
+    ,ZSFechaCreacion        DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    ,ZSFechaModificacion    DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
-CREATE TABLE ZSEstado (
-     IdZSEstado       INTEGER PRIMARY KEY AUTOINCREMENT     
-    ,zsNombre         VARCHAR(15) NOT NULL UNIQUE
-    ,zsDescripcion    VARCHAR(100) NULL
-    ,zsEstado         VARCHAR(1)  NOT NULL DEFAULT ('A')
-    ,zsFechaCreacion  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-    ,zsFechaModifica  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
+CREATE TABLE ZSExobotTipo(
+     IdZSExobotTipo            INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+    ,ZSNombre                  VARCHAR(10) NOT NULL
+    ,ZSDescripcion             VARCHAR(30) NOT NULL
+    ,ZSEstado                  VARCHAR(1) NOT NULL DEFAULT ('A') 
+    ,ZSFechaCreacion           DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    ,ZSFechaModificacion       DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
-CREATE TABLE ZSSexo (
-     IdZSSexo         INTEGER PRIMARY KEY AUTOINCREMENT
-    ,zsNombre         VARCHAR(15) NOT NULL UNIQUE
-    ,zsDescripcion    VARCHAR(100) NULL
-    ,zsEstado         VARCHAR(1)  NOT NULL DEFAULT ('A')
-    ,zsFechaCreacion  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-    ,zsFechaModifica  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
+CREATE TABLE ZSArmaTipo(
+     IdZSArmaTipo           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+    ,ZSNombre                  VARCHAR(10) NOT NULL UNIQUE
+    ,ZSDescripcion             VARCHAR(30) NOT NULL
+    ,ZSEstado                  VARCHAR(1) NOT NULL DEFAULT ('A') 
+    ,ZSFechaCreacion           DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    ,ZSFechaModificacion       DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
 
-CREATE TABLE ZSAlimento (
-     IdZSAlimento     INTEGER PRIMARY KEY AUTOINCREMENT
-    ,IdZSAlimentoTipo INTEGER NOT NULL REFERENCES ZSAlimentoTipo (IdZSAlimentoTipo)
-    ,zsNombre         VARCHAR(15) NOT NULL
-    ,zsEstado         VARCHAR(1)  NOT NULL DEFAULT ('A')
-    ,zsFechaCreacion  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-    ,zsFechaModifica  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
+-- Refactorización: Se eliminó el campo ZSArmaTipo de la tabla ZSExobot
+CREATE TABLE ZSExobot(
+     IdZSExobot                INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+    ,IdZSExobotTipo            INTEGER NOT NULL REFERENCES ZSExobotTipo(IdZSExobotTipo)
+    ,ZSEstado                  VARCHAR(1) NOT NULL DEFAULT ('A')
+    ,ZSEntreno                 VARCHAR(2) NOT NULL DEFAULT ('NO')
+    ,ZSNoAccion                INTEGER NOT NULL 
+    ,ZSFechaCreacion           DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
+    ,ZSFechaModificacion       DATETIME NOT NULL DEFAULT (datetime('now','localtime'))
 );
-
-CREATE TABLE ZSHormiga (
-     IdZSHormiga      INTEGER PRIMARY KEY AUTOINCREMENT
-    ,IdZSHormigaTipo  INTEGER NOT NULL REFERENCES ZSHormigaTipo (IdZSHormigaTipo)
-    ,IdZSSexo         INTEGER NOT NULL REFERENCES ZSSexo        (IdZSSexo)
-    ,IdZSEstado       INTEGER NOT NULL REFERENCES ZSEstado      (IdZSEstado)
-    ,zsNombre         VARCHAR(15) NOT NULL 
-    ,zsDescripcion    VARCHAR(100) NULL
-    ,zsEstado         VARCHAR(1)  NOT NULL DEFAULT ('A')
-    ,zsFechaCreacion  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-    ,zsFechaModifica  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-);
-
-CREATE TABLE ZSAntCiberDron(
-         IdZSAntCiberDron      INTEGER PRIMARY KEY AUTOINCREMENT
-        ,zsSerie               VARCHAR(15) NOT NULL UNIQUE
-        ,zsEstado              VARCHAR(1)  NOT NULL DEFAULT ('A')
-        ,zsFechaCreacion       DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-        ,zsFechaModifica       DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-);
-
-
 INSERT INTO ZSSexo (zsNombre, zsDescripcion) VALUES
-     ('Macho', 'Masculino')
-    ,('Hembra', 'Femenina')
-    ,('Híbrido', 'Hormiga con características de ambos sexos')
-    ,('Asexual', 'Hormiga sin sexo definido');
+    ('Hombre' , 'Sexo masculino')
+   ,('Mujer'  , 'Sexo femenino')
+   ,('Híbrido','Mezcla de ambos sexos');
 
-INSERT INTO ZSAlimentoTipo (zsNombre, zsDescripcion) VALUES
-    ('Carnivoro', 'Azucar')
-   ,('Herbívoro', 'Proteina')
-   ,('Omnívoro', 'Lipídico')
-   ,('Nectarívoro', 'Vitamínico');
+INSERT INTO ZSSoldado (IdZSSexo, ZSUsuario, ZSContrasena) VALUES 
+    (1,'patmic'    , '123')
+   ,(1,'1727915942', '2801');
 
-INSERT INTO ZSHormigaTipo (zsNombre, zsDescripcion) VALUES
-    ('Larva', 'Hormiga en etapa de larva')
-   ,('Soldado', 'Hormiga encargada de la defensa de la colonia')
-   ,('Rastreadora','Hormiga encargada de buscar alimento')
-   ,('Reina','Hormiga encargada de la reproducción')
-   ,('Zángano','Hormiga macho para reproducción');
+INSERT INTO ZSExobotTipo (ZSNombre, ZSDescripcion) VALUES
+    ('ExoAsalto'    ,  'Exobot de ataque y usa municiones')
+   ,('ExoExplorador',  'Exobot de exploración y detecta energía')
+   ,('ExoInfanteria',  'Exobot de infantería y usa municiones')
+   ,('ExoMedico'    ,  'Exobot que asiste con energía')
+   ,('ExoComando'   ,  'Exobot de comando que usa municiones');
 
+INSERT INTO ZSArmaTipo (ZSNombre, ZSDescripcion) VALUES 
+    ('Fusil'   ,'Arma de ataque usada por ExoAsalto')
+   ,('Revolver','Arma de ataque usada por ExoAsalto');
 
-INSERT INTO ZSEstado (zsNombre, zsDescripcion) VALUES
-     ('Vive', 'está viva')
-    ,('Muere', 'ha fmuerto')
-    ,('Finge','finge su muerte');
-
-INSERT INTO ZSAntCiberDron (ZSSerie) VALUES
-     ('S001')
-    ,('S002')
-    ,('S003')
-    ,('S004');
-
-INSERT INTO zsHormiga (
-     IdZSHormigaTipo
-    ,IdZSSexo
-    ,IdZSEstado
-    ,zsNombre
-    ,zsDescripcion
-) VALUES
-     (1, 2, 1, 'Hormiga1', 'Primera hormiga')
-    ,(2, 1, 1, 'Hormiga2', 'Segunda hormiga')
-    ,(3, 2, 1, 'Hormiga3', 'Tercera hormiga')
-    ,(4, 1, 1, 'Hormiga4', 'Cuarta hormiga' );
-
-SELECT * FROM ZSSexo;
-SELECT * FROM ZSHormigaTipo;
-SELECT * FROM ZSEstado;
-SELECT * FROM ZSAlimentoTipo;
-SELECT * FROM ZSHormiga;
-
-DROP VIEW IF EXISTS vwZSHormiga;
-
-CREATE VIEW vwZSHormiga AS
-SELECT
-    H.IdZSHormiga
-   ,HT.zsNombre AS ZSTipo
-   ,S.zsNombre  AS ZSSexo
-   ,E.zsNombre  AS ZSEstadoHormiga
-   ,H.zsNombre  AS ZSNombre
-   ,H.zsDescripcion
-   ,H.zsEstado
-   ,H.zsFechaCreacion
-   ,H.zsFechaModifica
-FROM ZSHormiga H
-JOIN ZSHormigaTipo    HT ON H.IdZSHormigaTipo = HT.IdZSHormigaTipo
-JOIN ZSSexo           S  ON H.IdZSSexo        = S.IdZSSexo
-JOIN ZSEstado         E  ON H.IdZSEstado      = E.IdZSEstado
-WHERE H.zsEstado = 'A'; 
-
-SELECT * FROM vwZSHormiga;  
-
-SELECT IdZSHormiga
- ,ZSTipo
- ,ZSSexo
- ,ZSEstadoHormiga
- ,ZSNombre
- ,ZSDescripcion
- ,ZSEstado
- ,ZSFechaCreacion
- ,ZSFechaModifica FROM vwZSHormiga;
-SELECT * FROM ZSHormiga;
-
-SELECT * FROM ZSEstado;
-
-UPDATE ZSEstado SET zsNombre = 'VIVA' 
-WHERE IdZSEstado = 1;
-
-UPDATE ZSEstado SET zsNombre = 'MUERTA'
-WHERE IdZSEstado = 2;
-
-UPDATE ZSEstado SET zsNombre = 'X'
-WHERE IdZSEstado = 3;
-
-SELECT *
-FROM ZSHormiga
-WHERE IdZSHormiga BETWEEN 5 AND 19;
+INSERT INTO ZSExobot (IdZSExobotTipo, ZSEntreno, ZSNoAccion) VALUES
+    (3, 'SI', 22)
+   ,(1, 'NO', 0 )
+   ,(3, 'NO', 0 )
+   ,(4, 'NO', 0 );
 
 
-DELETE FROM ZSHormiga
-WHERE IdZSHormiga BETWEEN 5 AND 19;
 
-CREATE TABLE ZSEntomologo (
-     IdZSEntomologo   INTEGER PRIMARY KEY AUTOINCREMENT     
-    ,zsUsuario        VARCHAR(15) NOT NULL UNIQUE
-    ,zsClave          VARCHAR(100) NULL
-    ,zsEstado         VARCHAR(1)  NOT NULL DEFAULT ('A')
-    ,zsFechaCreacion  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-    ,zsFechaModifica  DATETIME NOT NULL  DEFAULT (datetime('now','localtime'))
-);
 
-INSERT INTO ZSEntomologo (zsUsuario, zsClave) VALUES
-     ('patmic', '123')
-    ,('ZunigaSebastian', '1706');
+
