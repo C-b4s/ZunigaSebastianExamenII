@@ -11,7 +11,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 
 public class ZSAppStyle {
-    private static final String FONT_FAMILY       = "Fira Code";
+    public static final String FONT_FAMILY       = "Fira Code";
 
     public static final Color COLOR_FONT          = new Color(220,  0, 0); //(218, 8, 4
     public static final Color COLOR_FONT_LIGHT    = new Color(100,  100, 100);

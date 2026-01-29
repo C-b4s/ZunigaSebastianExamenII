@@ -67,11 +67,14 @@ public class ZSAppStart extends JFrame {
         // ===== PANELES =====
         ZSPHome panelHome = new ZSPHome();
         ZSPSoldado panelSoldado = new ZSPSoldado();
+        ZSPExobot panelExobot = new ZSPExobot();
 
         zsPanels.put("Inicio", panelHome);
+        zsPanels.put("Exobots", panelExobot);
         zsPanels.put("Soldados", panelSoldado);
 
         zsMainPanel.add(panelHome, "Inicio");
+        zsMainPanel.add(panelExobot, "Exobots");
         zsMainPanel.add(panelSoldado, "Soldados");
 
         container.add(zsMainPanel, BorderLayout.CENTER);

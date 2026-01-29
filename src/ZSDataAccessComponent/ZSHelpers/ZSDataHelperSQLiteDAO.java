@@ -119,7 +119,7 @@ public class ZSDataHelperSQLiteDAO<T> implements IZSDataHelperSQLiteDAO<T>{
                 }
             }
 
-            zsUpdates.append("zsFechaModifica = ?"); // campo técnico de auditoría
+            zsUpdates.append("ZSFechaModificacion = ?"); // campo técnico de auditóría
 
             String zsSql = String.format("UPDATE %s SET %s WHERE %s = ?", zsTableName, zsUpdates, zsTablePK);
 
@@ -148,7 +148,7 @@ public class ZSDataHelperSQLiteDAO<T> implements IZSDataHelperSQLiteDAO<T>{
 
     @Override
     public boolean zsDelete(Integer id) throws ZSAppException {
-        String zsSql = String.format("UPDATE %s SET zsEstado = ?, zsFechaModifica = ? WHERE %s = ?", zsTableName, zsTablePK);
+        String zsSql = String.format("UPDATE %s SET ZSEstado = ?, ZSFechaModificacion = ? WHERE %s = ?", zsTableName, zsTablePK);
         try (PreparedStatement zsStmt = zsOpenConnection().prepareStatement(zsSql)) {
             zsStmt.setString(1, "X");
             zsStmt.setString(2, zsGetDateTimeNow());

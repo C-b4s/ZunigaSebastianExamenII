@@ -24,7 +24,7 @@ public class ZSAppExoTropper {
                 System.exit(0);
             }
         }catch(Exception e){
-            ZSCMD.printlnError("Error durante la autenticación: ");;
+            ZSCMD.printlnError("Error durante la autenticación: " + e.getMessage());;
         }
         
     }
