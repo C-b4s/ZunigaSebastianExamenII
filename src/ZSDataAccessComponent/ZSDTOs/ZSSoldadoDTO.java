@@ -71,5 +71,13 @@ public class ZSSoldadoDTO {
         ZSFechaModificacion = zSFechaModificacion;
     }
 
+    @Override
+    public String toString() {
+        return   "\n IdSexo               " + getIdZSSexo()
+               + "\n Usuario              " + getZSUsuario() 
+               + "\n Estado               " + getZSEstado()  
+               + "\n FechaCreacion        " + getZSFechaCreacion()
+               + "\n FechaModifica        " + getZSFechaModificacion();
+    }
     
 }

@@ -28,15 +28,12 @@ public class ZSPSoldado extends JPanel {
         String[] columns = {
                 "ID",
                 "Usuario",
-                "Nombre",
-                "Rango",
-                "Estado"
         };
 
         zsTableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // 🔒 Solo lectura
+                return false; 
             }
         };
 
@@ -58,9 +55,7 @@ public class ZSPSoldado extends JPanel {
         for (ZSSoldadoDTO s : soldados) {
             zsTableModel.addRow(new Object[]{
                     s.getIdZSSoldado(),
-                    s.getIdZSSexo(),
-                    s.getZSUsuario(),
-                    s.getZSEstado()
+                    s.getZSUsuario()
             });
         }
     }
