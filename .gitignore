@@ -1,0 +1,5 @@
+/bin/
+*.log
+*.class
+.vscode/
+.github/
